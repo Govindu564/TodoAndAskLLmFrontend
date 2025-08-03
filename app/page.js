@@ -1,6 +1,6 @@
 import React from "react";
 import TodoList from "./components/TodoLists";
-import AskGemini from "./components/askAnything";
+import AskGemini from "./components/AskAnything";
 export default function Home() {
   return (
     <>
@@ -12,8 +12,10 @@ export default function Home() {
       <p className="text-center text-gray-800 mb-5 pb-5">
         stay organized and get instant Answer - all in one place
       </p>
-      <TodoList />
-      <AskGemini />
+      <div>
+        <TodoList />
+        <AskGemini />
+      </div>
       <p className="text-center text-sm text-gray-500 mt-10 mb-5">
         Thank you for using{" "}
         <span className="text-blue-600 font-medium ">
@@ -23,6 +25,6 @@ export default function Home() {
       <p className="text-center text-sm text-gray-500 mb-15">
         We are to make your day simpler, one task and question at a time!
       </p>
-    </> 
+    </>
   );
 }
