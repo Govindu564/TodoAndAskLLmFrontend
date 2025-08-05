@@ -8,8 +8,8 @@ import {
 } from "@heroicons/react/24/outline";
 import { Loader2, MessageCircle } from "lucide-react";
 
-// const BACKEND_API_URL = process.env.NEXT_PUBLIC_BACKEND_URL?.replace(/\/$/, "");
-const BACKEND_API_URL = 'https://todoandaskllmbackend.onrender.com';
+const BACKEND_API_URL = process.env.NEXT_PUBLIC_BACKEND_URL?.replace(/\/$/, "");
+// const BACKEND_API_URL = 'https://todoandaskllmbackend.onrender.com';
 
 const TodoLists = () => {
   const [todos, setTodos] = useState([]);

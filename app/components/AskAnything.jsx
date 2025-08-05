@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Loader2, MessageCircle } from "lucide-react";
 
-// const BACKEND_API_URL = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/ask`;
-const BACKEND_API_URL = 'https://todoandaskllmbackend.onrender.com/api/ask';
+const BACKEND_API_URL = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/ask`;
+// const BACKEND_API_URL = 'https://todoandaskllmbackend.onrender.com/api/ask';
 
 const AskGemini = () => {
   const [question, setQuestion] = useState("");
