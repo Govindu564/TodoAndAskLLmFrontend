@@ -1,38 +1,23 @@
 "use client";
-import react, { use, useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
   PencilSquareIcon,
   CheckIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
-import { Loader2, Messagecircle, Users } from "lucide-react";
+import { Loader2, MessageCircle } from "lucide-react";
 
-const BACKEND_API_URL = process.env.NEXT_PUBLIC_BACKEND_URL?.replace(/\$/, "");
+const BACKEND_API_URL = process.env.NEXT_PUBLIC_BACKEND_URL?.replace(/\/$/, "");
 
-const TodoList = () => {
+const TodoLists = () => {
   const [todos, setTodos] = useState([]);
   const [text, setText] = useState("");
   const [editId, setEditId] = useState(null);
   const [editText, setEditText] = useState("");
-  const [username, setUsername] = useState("");
-  const [loggedIn, setLoggedIn] = useState(false);
   const [progress, setProgress] = useState(0);
 
-  useEffect(() => {
-    const storedUsername = localStorage.getItem("username");
-    if (storedUsername) {
-      setUsername(storedUsername);
-      setLoggedIn(true);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (loggedIn) {
-      fetchTodos();
-    }
-  }, [loggedIn, username]);
-
+  // Recalculate progress whenever the todos list changes
   useEffect(() => {
     if (todos.length > 0) {
       const completedCount = todos.filter((todo) => todo.completed).length;
@@ -43,14 +28,11 @@ const TodoList = () => {
   }, [todos]);
 
   const fetchTodos = async () => {
-    if (!username) return;
     try {
-      const res = await axios.get(
-        `${BACKEND_API_URL}/api/todos?username=${username}`
-      );
+      const res = await axios.get(`${BACKEND_API_URL}/api/todos`);
       setTodos(res.data);
     } catch (error) {
-      console.log("Error Fetching todos:", error);
+      console.log("Error fetching todos:", error);
     }
   };
 
@@ -59,7 +41,6 @@ const TodoList = () => {
     try {
       await axios.post(`${BACKEND_API_URL}/api/todos`, {
         title: text,
-        username,
       });
       setText("");
       fetchTodos();
@@ -86,6 +67,7 @@ const TodoList = () => {
     }
   };
 
+  // New function to toggle the completion status
   const handleToggleTodo = async (id) => {
     try {
       await axios.patch(`${BACKEND_API_URL}/api/todos/${id}`);
@@ -105,14 +87,15 @@ const TodoList = () => {
   };
 
   return (
-    <div className="flex flex-col overflow-hidden mt-5 mb-6">
+    <div className="flex flex-col  overflow-hidden mt-5 mb-6">
       <div className="shadow-lg bg-white rounded-xl mx-0 md:mx-[85px] border border-gray-300">
         <div className="bg-gray-100 p-6 rounded-t-xl">
           <h3 className="text-2xl font-bold flex items-center gap-2">
-            To-Do manager
+            {/* <MessageCircle className="h-6 w-6 text-indigo-600" /> */}
+            To-Do Manager
           </h3>
           <p className="text-sm text-gray-500 mt-1">
-            A Simple List to Keep track of your tasks
+            A simple list to keep track of your tasks.
           </p>
         </div>
         <div className="p-6">
@@ -121,10 +104,10 @@ const TodoList = () => {
               value={text}
               onChange={(e) => setText(e.target.value)}
               onKeyDown={(e) => {
-                if (e.key === "enter") addTodo();
+                if (e.key === "Enter") addTodo();
               }}
               placeholder="Add your tasks"
-              className="flex-grow border border-gray-300 rounded-md px-4 py-2 mr-2 focus:outline-none focus:ring-2 focus:ring-blue-500 "
+              className="flex-grow border border-gray-300 rounded-md px-4 py-2 mr-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <button
               onClick={addTodo}
@@ -192,11 +175,12 @@ const TodoList = () => {
             ></div>
           </div>
           <p className="text-center text-sm text-gray-600">
-            {Math.round(progress)} % Complete
+            {Math.round(progress)}% Complete
           </p>
         </div>
       </div>
     </div>
   );
 };
-export default TodoList;
+
+export default TodoLists;
