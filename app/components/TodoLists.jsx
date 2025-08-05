@@ -18,6 +18,13 @@ const TodoLists = () => {
   const [editText, setEditText] = useState("");
   const [progress, setProgress] = useState(0);
 
+  useEffect(() => {
+    const savedTodos = JSON.parse(localStorage.getItem("todos"));
+    if (savedTodos) {
+      setTodos(savedTodos);
+    }
+  }, []);
+
   // Recalculate progress whenever the todos list changes
   useEffect(() => {
     if (todos.length > 0) {
@@ -26,6 +33,7 @@ const TodoLists = () => {
     } else {
       setProgress(0);
     }
+    localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
 
   const fetchTodos = async () => {
@@ -45,6 +53,7 @@ const TodoLists = () => {
       });
       setText("");
       fetchTodos();
+      setTodos([...todos, todo]);
     } catch (error) {
       console.log("Error adding todo:", error);
     }
